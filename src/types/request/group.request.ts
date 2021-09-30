@@ -14,7 +14,8 @@ export interface AddUserReqGroup {
 }
 
 export interface CheckMsgReqGroup {
-    messages: IMsgs[]
+    groupId: string
+    message: string
 }
 
 export interface SaveMessageReq {

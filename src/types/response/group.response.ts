@@ -14,3 +14,8 @@ export interface SaveMessageRes {
     userId: string
     message: string
 }
+
+export interface CheckMsgResGroup {
+    groupId: string
+    message: string
+}

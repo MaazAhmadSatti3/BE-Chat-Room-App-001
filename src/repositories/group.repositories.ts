@@ -1,8 +1,8 @@
 import { GroupSchema } from "../model/group.model";
 import { UserSchema } from "../model/user.model";
-import { AddUserReqGroup, SaveMessageReq } from "../types/request/group.request"
+import { AddUserReqGroup, CheckMsgReqGroup, SaveMessageReq } from "../types/request/group.request"
 import { IGroup } from "../types/document/IGroup";
-import { SaveMessageRes } from "../types/response/group.response";
+import { CheckMsgResGroup, SaveMessageRes } from "../types/response/group.response";
 
 export class MainGroup {
     constructor() {}
@@ -23,9 +23,9 @@ export class MainGroup {
         }
     }
 
-    async checkMsg(id: any): Promise<any> {
-        let groupDoc = await GroupSchema.findById(id)
-        return <any> groupDoc?.messages
+    async checkMsg(id: CheckMsgReqGroup): Promise<any> {
+        let groupDoc = await GroupSchema.findById(id.groupId)
+        return <any> groupDoc
     }
 
     sendMessage(Message: SaveMessageReq){

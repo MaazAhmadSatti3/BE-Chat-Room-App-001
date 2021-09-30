@@ -10,7 +10,7 @@ import { SaveResGroup } from "../types/response/group.response";
 @Tags('user')
 
 export class UserController {
-    constructor() {}
+   
 
     @Security('api_key')
     @Post('/saveUser')
@@ -28,8 +28,8 @@ export class UserController {
 
     @Post('/userLogin')
     @SuccessResponse("200","User login")
-    async userLogin(@Body() req: UserReqLogin) {
-        return await new MainUser().userLogin(req.userId)
+    async userLogin(@Body() req: UserReqLogin): Promise<SaveResUser> {
+        return <SaveResUser> await new MainUser().userLogin(req.userId)
     }
 
     @Put('/updateUser')

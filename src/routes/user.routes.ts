@@ -19,21 +19,20 @@ export class UserRoutes {
             try {
                 const user: SaveReqUser = req.body
                 console.log(req.body)
-                // const newUser: SaveResUser = await new UserController().saveUser(user)
-                // con
-                res.status(200).json({
-                    message: user
+                const newUser: SaveResUser = await new UserController().saveUser(user)
+                return res.status(200).send({
+                    message: newUser
                 })
             } catch (error) {
                 next(error)
             }
         })
 
-        this.router.delete('/deleteUser', async (req, res, next) => {
+        this.router.delete('/deleteUser', tokenVerify, async (req, res, next) => {
             try {
                 const reqdel : DeleteReqUser = req.body
                 const userDeleted = await new UserController().deleteUser(reqdel)
-                res.status(200).json({
+               return res.status(200).send({
                     message: userDeleted,
                     message2: "User Deleted"
                 })
@@ -46,7 +45,7 @@ export class UserRoutes {
             try {
                 const logreq: UserReqLogin = req.body
                 const userLogin = await new UserController().userLogin(logreq)
-                res.status(200).json({
+                return res.status(200).send({
                     message: userLogin,
                     message2: "User LogedIn"
                 })
@@ -59,7 +58,7 @@ export class UserRoutes {
             try {
                 const reqUpdate: UpdateReqUser = req.body
                 const userUpdated = await new UserController().updateUser(reqUpdate)
-                res.status(200).json({
+                return res.status(200).send({
                     message: userUpdated,
                     message2: "User Updated"
                 })

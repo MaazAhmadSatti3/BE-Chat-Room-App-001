@@ -35,9 +35,17 @@ export class GroupController {
 
     @Security('api_key')
     @Post('/checkMsg')
-    async checkMsg(@Body() group: CheckMsgReqGroup): Promise<SaveResGroup> {
-        const new_user = await new MainGroup().checkMsg(group)
-        return <SaveResGroup> (new_user)
+    async checkMsg(@Body() group: CheckMsgReqGroup): Promise<any> {
+        const new_user:any = await new MainGroup().checkMsg(group)
+        
+        let salary:any = new_user.messages
+        let msgs: string[]=[]
+        for(let m in salary) {
+            if(salary[m].msg === group.message ){
+                msgs.push(salary[m]) 
+            }
+        }
+        return <any> (msgs)
     }
 
     @Post('/sendMessage')

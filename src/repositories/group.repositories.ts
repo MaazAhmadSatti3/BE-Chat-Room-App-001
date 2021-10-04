@@ -23,8 +23,8 @@ export class MainGroup {
         }
     }
 
-    async checkMsg(id: CheckMsgReqGroup): Promise<any> {
-        let groupDoc = await GroupSchema.findById(id.groupId)
+    async checkMsg(): Promise<any> {
+        let groupDoc = await GroupSchema.find()
         return <any> groupDoc
     }
 

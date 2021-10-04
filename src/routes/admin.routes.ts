@@ -14,10 +14,10 @@ export class AdminRoutes {
     }
 
     routes() {
-        this.router.post('/saveAdmin',  async (req, res, next) => {
+        this.router.post('/authAdmin',  async (req, res, next) => {
             try {
             const admin: AdminReqLogin = req.body
-            const newAdmin: AdminResLogin = await new AdminController().saveAdmin(admin)
+            const newAdmin: AdminResLogin = await new AdminController().authAdmin(admin)
             res.status(200).json({
                 token_key: newAdmin.token_key,
                 message: newAdmin.message

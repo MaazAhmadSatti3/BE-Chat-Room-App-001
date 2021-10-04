@@ -13,9 +13,9 @@ require('dotenv').config();
 export class AdminController {
     constructor() {}
 
-    @Post('saveAdmin')
-    async saveAdmin(@Body() admin: AdminReqLogin): Promise<AdminResLogin> {
-        const new_admin: IAdmin = await new MainAdmin().saveAdmin(<IAdmin>(admin))
+    @Post('authAdmin')
+    async authAdmin(@Body() admin: AdminReqLogin): Promise<AdminResLogin> {
+        const new_admin: IAdmin = await new MainAdmin().authAdmin(<IAdmin>(admin))
 
         if(!new_admin)
             throw new CustomError(401, "Invalid Credentials")

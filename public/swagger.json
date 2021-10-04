@@ -249,17 +249,48 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"CheckMsgReqGroup": {
+			"Messages": {
 				"properties": {
-					"groupId": {
+					"User": {
 						"type": "string"
 					},
+					"Message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"User",
+					"Message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CheckMsgResGroup": {
+				"properties": {
+					"Group": {
+						"type": "string"
+					},
+					"Result": {
+						"items": {
+							"$ref": "#/components/schemas/Messages"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"Group",
+					"Result"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CheckMsgReqGroup": {
+				"properties": {
 					"message": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"groupId",
 					"message"
 				],
 				"type": "object",
@@ -324,9 +355,9 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/admin/saveAdmin": {
+		"/admin/authAdmin": {
 			"post": {
-				"operationId": "SaveAdmin",
+				"operationId": "AuthAdmin",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -608,7 +639,12 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {}
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/CheckMsgResGroup"
+									},
+									"type": "array"
+								}
 							}
 						}
 					}

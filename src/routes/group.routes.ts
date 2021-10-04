@@ -58,7 +58,6 @@ export class GroupRoutes {
                 const addUser = await new GroupController().checkMsg(user)
                 res.status(200).json({
                     message: addUser,
-                    message2: "User Added"
                 })
             } catch (error) {
                 next(error)

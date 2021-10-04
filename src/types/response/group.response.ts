@@ -16,6 +16,10 @@ export interface SaveMessageRes {
 }
 
 export interface CheckMsgResGroup {
-    groupId: string
-    message: string
+    Group: string
+    Result: Messages[]
+}
+interface Messages {
+    User: string,
+    Message: string
 }

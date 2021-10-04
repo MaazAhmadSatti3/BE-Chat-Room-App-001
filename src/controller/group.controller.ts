@@ -3,7 +3,7 @@ import { MainGroup } from "../repositories/group.repositories";
 import CustomError from '../utils/error'
 import { Get, Route, Tags, Post, Body, Path, Put, Delete, SuccessResponse, Security } from "tsoa";
 import { SaveReqGroup, DeleteReqGroup, AddUserReqGroup, CheckMsgReqGroup, SaveMessageReq } from '../types/request/group.request' 
-import { SaveMessageRes, SaveResGroup } from "../types/response/group.response";
+import { CheckMsgResGroup, SaveMessageRes, SaveResGroup } from "../types/response/group.response";
 import { group } from "console";
 
 @Route('group')
@@ -35,17 +35,32 @@ export class GroupController {
 
     @Security('api_key')
     @Post('/checkMsg')
-    async checkMsg(@Body() group: CheckMsgReqGroup): Promise<any> {
-        const new_user:any = await new MainGroup().checkMsg(group)
+    async checkMsg(@Body() group: CheckMsgReqGroup): Promise<CheckMsgResGroup[]> {
+        const new_user:any = await new MainGroup().checkMsg()
+        // console.log(new_user)
+
+        let result: any[]=[]
         
-        let salary:any = new_user.messages
-        let msgs: string[]=[]
-        for(let m in salary) {
-            if(salary[m].msg === group.message ){
-                msgs.push(salary[m]) 
+        new_user.map((element: any) => {
+            let groupResult: CheckMsgResGroup = {
+                Group: element._id,
+                Result: []
             }
-        }
-        return <any> (msgs)
+            console.log('first group')
+            element.messages.map((message: any) => {
+                
+                if(message.msg.toLowerCase().includes(group.message.toLowerCase())) {
+                    groupResult.Result.push({
+                        User: message.userId,
+                        Message: message.msg
+                    })
+                }
+            })
+            if (groupResult.Result.length > 0) {
+                result.push(groupResult)
+            }
+        })
+        return result
     }
 
     @Post('/sendMessage')

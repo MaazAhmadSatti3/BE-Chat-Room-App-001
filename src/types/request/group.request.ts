@@ -14,7 +14,6 @@ export interface AddUserReqGroup {
 }
 
 export interface CheckMsgReqGroup {
-    groupId: string
     message: string
 }
 

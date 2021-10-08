@@ -22,3 +22,13 @@ export interface SaveMessageReq {
     userId: string
     message: string
 }
+
+// export interface GetUserMsgsReq {
+//     userId: string
+//     message: string 
+// }
+
+export interface checkUserMsgReq {
+    userId: string
+    messageBody: string
+}

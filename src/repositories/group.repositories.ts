@@ -44,4 +44,9 @@ export class MainGroup {
         )
     }
 
+    async userMessages(): Promise <any> {
+        let groupDoc = await GroupSchema.find()
+        return <any> groupDoc
+    }
+
 }

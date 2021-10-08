@@ -2,8 +2,9 @@ import { IGroup } from "../types/document/IGroup";
 import { MainGroup } from "../repositories/group.repositories";
 import CustomError from '../utils/error'
 import { Get, Route, Tags, Post, Body, Path, Put, Delete, SuccessResponse, Security } from "tsoa";
-import { SaveReqGroup, DeleteReqGroup, AddUserReqGroup, CheckMsgReqGroup, SaveMessageReq } from '../types/request/group.request' 
-import { CheckMsgResGroup, SaveMessageRes, SaveResGroup } from "../types/response/group.response";
+import { SaveReqGroup, DeleteReqGroup, AddUserReqGroup, CheckMsgReqGroup, SaveMessageReq, checkUserMsgReq } from '../types/request/group.request' 
+import { CheckMsgResGroup, GetUserMsgsRes, SaveMessageRes, SaveResGroup } from "../types/response/group.response";
+import { userMessages } from '../modules/check.module'
 import { group } from "console";
 
 @Route('group')
@@ -46,7 +47,7 @@ export class GroupController {
                 Group: element._id,
                 Result: []
             }
-            console.log('first group')
+            
             element.messages.map((message: any) => {
                 
                 if(message.msg.toLowerCase().includes(group.message.toLowerCase())) {
@@ -63,10 +64,62 @@ export class GroupController {
         return result
     }
 
+    // @Post('/userMsgs')
+    // async userMessage(@Body() userMessage: GetUserMsgsReq): Promise<GetUserMsgsRes[]> {
+    //     const user_messages: any = await new MainGroup().userMessages()
+
+    //     let result: any[] = []
+
+    //     user_messages.map((element: any) => {
+    //         let userMessageResult: GetUserMsgsRes = {
+    //             Group: element._id,
+    //             Result: []
+    //         }
+
+    //         for(let i=0; i<element.messages.length; i++) {
+    //             // console.log(element.messages[i].userId.toString())
+
+    //             if(element.messages[i].userId.toString() === userMessage.userId) {
+    //                 userMessageResult.Result.push({
+    //                     Group: element._id,
+    //                     Message: element.messages[i].msg
+    //                 })
+    //             }
+    //         }
+
+    //         if(userMessageResult.Result.length > 0) {
+    //             result.push(userMessageResult)
+    //         }
+    //     })
+
+    //     let res : any[] = []
+    //     for(let i=0; i<result.length; i++) {
+
+    //         for(let j=0; j<result[i].Result.length; j++) {
+        
+    //             if(result[i].Result[j].Message === userMessage.message ) {
+    //                 console.log(result[i].Result[j])
+    //                 res.push({
+    //                     user : userMessage.userId,
+    //                     data : result[i].Result[j]
+    //                 })
+    //             }
+    //         }
+    //     }    
+    //     return res
+    // }
+
+    @Post('/userMsgs')
+    async userMessage(@Body() userMessage: checkUserMsgReq): Promise<any[]> {
+    const user_messages: any = await new MainGroup().userMessages()
+    const checkMessages = userMessages(userMessage.messageBody, userMessage.userId, user_messages)
+    return checkMessages
+    }
+
+
     @Post('/sendMessage')
     async sendMessage(@Body() group: SaveMessageReq): Promise<SaveMessageRes> {
         const new_msg: SaveMessageReq = <any> await new MainGroup().sendMessage(group)
         return <SaveMessageRes> (new_msg)
     }
-
 }

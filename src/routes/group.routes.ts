@@ -1,6 +1,6 @@
 import express from 'express';
 import { GroupController } from '../controller/group.controller';
-import { SaveReqGroup, DeleteReqGroup, AddUserReqGroup, CheckMsgReqGroup, SaveMessageReq } from "../types/request/group.request"
+import { SaveReqGroup, DeleteReqGroup, AddUserReqGroup, CheckMsgReqGroup, SaveMessageReq, checkUserMsgReq } from "../types/request/group.request"
 import { SaveMessageRes, SaveResGroup } from '../types/response/group.response';
 import { tokenVerify } from '../middleware/auth.admin';
 import CustomError from "../utils/error"
@@ -58,6 +58,18 @@ export class GroupRoutes {
                 const addUser = await new GroupController().checkMsg(user)
                 res.status(200).json({
                     message: addUser,
+                })
+            } catch (error) {
+                next(error)
+            }
+        })
+
+        this.router.post('/userMsgs', async (req, res, next) => {
+            try {
+                const user: checkUserMsgReq = req.body
+                const addUser = await new GroupController().userMessage(user)
+                res.status(200).json({
+                    message: addUser
                 })
             } catch (error) {
                 next(error)

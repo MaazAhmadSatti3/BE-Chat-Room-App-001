@@ -19,7 +19,23 @@ export interface CheckMsgResGroup {
     Group: string
     Result: Messages[]
 }
+
 interface Messages {
     User: string,
     Message: string
+}
+
+export interface GetUserMsgsRes {
+    Group: string,
+    Result: Messagess[]
+}
+
+interface Messagess {
+    Group: string,
+    Message: string
+}
+
+export interface checkUserMsgres {
+    groupId: string
+    messageBody: string
 }

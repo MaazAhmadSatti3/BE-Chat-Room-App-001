@@ -10,7 +10,6 @@ import { SaveResGroup } from "../types/response/group.response";
 @Tags('user')
 
 export class UserController {
-   
 
     @Security('api_key')
     @Post('/saveUser')
